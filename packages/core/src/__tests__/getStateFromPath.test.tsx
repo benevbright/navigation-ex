@@ -240,6 +240,7 @@ it('handles parse in nested object with parse in it', () => {
         },
         Bar: 'bar/:type/:fruit',
         Baz: {
+          Bos: 'bos',
           Bis: {
             path: 'bis/:author',
             parse: {
