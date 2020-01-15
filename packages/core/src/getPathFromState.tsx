@@ -40,7 +40,7 @@ type Options = {
  * @returns Path representing the state, e.g. /foo/bar?count=42.
  */
 export default function getPathFromState(
-  state: State,
+  state?: State,
   options: Options = {}
 ): string {
   let path = '/';
