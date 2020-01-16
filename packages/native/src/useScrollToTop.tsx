@@ -43,7 +43,10 @@ function getScrollableNode(ref: React.RefObject<ScrollableWrapper>) {
 }
 
 export default function useScrollToTop(
-  ref: React.RefObject<ScrollableWrapper>
+  ref: React.RefObject<ScrollableWrapper>,
+  // this may be helpful when need to refresh
+  // the screen after scroll to top
+  callbackAction?: Function
 ) {
   const navigation = useNavigation();
   const route = useRoute();
@@ -91,11 +94,12 @@ export default function useScrollToTop(
             } else if ('scrollResponderScrollTo' in scrollable) {
               scrollable.scrollResponderScrollTo({ y: 0, animated: true });
             }
+            callbackAction && callbackAction();
           }
         });
       }
     );
 
     return unsubscribe;
-  }, [navigation, ref, route.key]);
+  }, [navigation, ref, route.key, callbackAction]);
 }
