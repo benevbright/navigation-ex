@@ -105,6 +105,13 @@ export default function useDescriptors<
     (acc, route) => {
       const screen = screens[route.name];
       const navigation = navigations[route.key];
+      const screenOptionsObj = (typeof screenOptions === 'object' || screenOptions == null
+      ? screenOptions
+      : screenOptions({
+          // @ts-ignore
+          route,
+          navigation,
+        }))
 
       acc[route.key] = {
         navigation,
@@ -123,13 +130,7 @@ export default function useDescriptors<
         },
         options: {
           // The default `screenOptions` passed to the navigator
-          ...(typeof screenOptions === 'object' || screenOptions == null
-            ? screenOptions
-            : screenOptions({
-                // @ts-ignore
-                route,
-                navigation,
-              })),
+          ...screenOptionsObj,
           // The `options` prop passed to `Screen` elements
           ...(typeof screen.options === 'object' || screen.options == null
             ? screen.options
@@ -137,6 +138,7 @@ export default function useDescriptors<
                 // @ts-ignore
                 route,
                 navigation,
+                screenOptions: screenOptionsObj
               })),
           // The options set via `navigation.setOptions`
           ...options[route.key],
